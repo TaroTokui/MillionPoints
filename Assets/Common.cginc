@@ -69,3 +69,15 @@ float3x3 Euler3x3(float3 v)
 
 	return float3x3(row1, row2, row3);
 }
+
+// Quaternion
+float4 quat_from_axis_angle(float3 axis, float angle)
+{
+	float4 qr;
+	float half_angle = (angle * 0.5) * 3.14159 / 180.0;
+	qr.x = axis.x * sin(half_angle);
+	qr.y = axis.y * sin(half_angle);
+	qr.z = axis.z * sin(half_angle);
+	qr.w = cos(half_angle);
+	return qr;
+}

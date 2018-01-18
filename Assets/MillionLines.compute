@@ -1,0 +1,58 @@
+﻿#pragma kernel Init
+#pragma kernel Update
+
+#include "Common.cginc"
+
+// スレッドグループのスレッドサイズ
+#define ThreadBlockSize 256
+
+struct ParticleData
+{
+	float3 BasePosition;
+	float3 Position;
+	float3 Albedo;
+	float rotationSpeed;
+};
+
+RWStructuredBuffer<ParticleData> _ParticleDataBuffer;
+
+uint _InstanceCount;
+uint _MeshVertices;
+float _time;	// _Time is already defined at UnityUI.cginc?
+
+float3 rotate_position(float3 position, float3 axis, float angle)
+{
+	float4 q = quat_from_axis_angle(axis, angle);
+	float3 v = position.xyz;
+	return v + 2.0 * cross(q.xyz, cross(q.xyz, v) + q.w * v);
+}
+
+// 1つのスレッドで1mesh分の頂点を処理している
+[numthreads(ThreadBlockSize, 1, 1)]
+void Init(uint id : SV_DispatchThreadID)
+{
+	for (uint i = 0; i < _MeshVertices; i++)
+	{
+		uint offs = id * _InstanceCount + i;
+		_ParticleDataBuffer[offs].Position = float3(i, id, 0);
+	}
+}
+
+[numthreads(ThreadBlockSize, 1, 1)]
+void Update(uint id : SV_DispatchThreadID)
+{
+	for (uint i = 0; i < _MeshVertices; i++)
+	{
+		uint offs = id + i * _InstanceCount;
+
+		float3 pos = _ParticleDataBuffer[offs].BasePosition;
+		float speed = _ParticleDataBuffer[offs].rotationSpeed;
+
+		float3 tx = normalize(pos);
+		float3 ty = normalize(cross(RandomVector(offs + 1), tx));
+
+		_ParticleDataBuffer[offs].Position = rotate_position(pos, ty, speed * _time);
+
+	}
+
+}

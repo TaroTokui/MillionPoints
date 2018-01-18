@@ -13,27 +13,9 @@ struct ParticleData
 	float rotationSpeed;
 };
 
-RWStructuredBuffer<ParticleData> _CubeDataBuffer;
+RWStructuredBuffer<ParticleData> _ParticleDataBuffer;
 
 float _time;	// _Time is already defined at UnityUI.cginc?
-
-float3 hsv2rgb(float3 c)
-{
-	float4 K = float4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
-	float3 p = abs(frac(c.xxx + K.xyz) * 6.0 - K.www);
-	return c.z * lerp(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
-}
-
-float4 quat_from_axis_angle(float3 axis, float angle)
-{
-	float4 qr;
-	float half_angle = (angle * 0.5) * 3.14159 / 180.0;
-	qr.x = axis.x * sin(half_angle);
-	qr.y = axis.y * sin(half_angle);
-	qr.z = axis.z * sin(half_angle);
-	qr.w = cos(half_angle);
-	return qr;
-}
 
 float3 rotate_position(float3 position, float3 axis, float angle)
 {
@@ -53,14 +35,14 @@ void MainCS(uint3 id : SV_DispatchThreadID)
 	// get index
 	const unsigned int index = id.x;
 
-	float3 pos = _CubeDataBuffer[index].BasePosition;
-	float speed = _CubeDataBuffer[index].rotationSpeed;
+	float3 pos = _ParticleDataBuffer[index].BasePosition;
+	float speed = _ParticleDataBuffer[index].rotationSpeed;
 
 	// Construct the tangent space
 	float3 tx = normalize(pos);
 	float3 ty = normalize(cross(RandomVector(index + 1), tx));
 	//float3 tz = normalize(cross(tx, ty));
 
-	_CubeDataBuffer[index].Position = rotate_position(pos, ty, speed * _time);
+	_ParticleDataBuffer[index].Position = rotate_position(pos, ty, speed * _time);
 
 }

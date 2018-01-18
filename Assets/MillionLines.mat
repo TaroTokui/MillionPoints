@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: MillionPoints
-  m_Shader: {fileID: 4800000, guid: fd77fe870f1bb0742bb49a8b3d783119, type: 3}
+  m_Name: MillionLines
+  m_Shader: {fileID: 4800000, guid: 7824fa213cdba5549860dbeb96bb4eeb, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -62,6 +62,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _LocalTime: 0
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
