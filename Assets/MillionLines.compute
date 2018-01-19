@@ -43,7 +43,8 @@ void Update(uint id : SV_DispatchThreadID)
 {
 	for (uint i = 0; i < _MeshVertices; i++)
 	{
-		uint offs = id + i * _InstanceCount;
+		//uint offs = id + i * _InstanceCount;
+		uint offs = id * _MeshVertices + i;
 
 		float3 pos = _ParticleDataBuffer[offs].BasePosition;
 		float speed = _ParticleDataBuffer[offs].rotationSpeed;
@@ -52,7 +53,5 @@ void Update(uint id : SV_DispatchThreadID)
 		float3 ty = normalize(cross(RandomVector(offs + 1), tx));
 
 		_ParticleDataBuffer[offs].Position = rotate_position(pos, ty, speed * _time);
-
 	}
-
 }

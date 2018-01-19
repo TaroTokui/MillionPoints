@@ -59,7 +59,8 @@
 		{
 			#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
 
-			uint idx = unity_InstanceID + v.vertex.x * _InstanceCount;
+			//uint idx = unity_InstanceID + v.vertex.x * _InstanceCount;
+			uint idx = unity_InstanceID + _MeshVertices + v.vertex.x;
 
 			// スケールと位置(平行移動)を適用
 			float4x4 matrix_ = (float4x4)0;

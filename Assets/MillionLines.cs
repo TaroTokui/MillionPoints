@@ -123,13 +123,13 @@ public class MillionLines : MonoBehaviour
         _ParticleDataBuffer.GetData(particleDataArr);
 
         //Debug.Log("-------------");
-        //for (int i=0; i<_lineCount; i++)
+        //for (int i = 0; i < _lineCount; i++)
         //{
         //    Debug.Log(i.ToString() + " -");
-        //    Debug.Log(particleDataArr[i * 2].BasePosition);
-        //    Debug.Log(particleDataArr[i * 2 + 1].BasePosition);
-        //    Debug.Log(particleDataArr[i*2].Position);
-        //    Debug.Log(particleDataArr[i*2+1].Position);
+        //    //Debug.Log(particleDataArr[i * 2].BasePosition);
+        //    //Debug.Log(particleDataArr[i * 2 + 1].BasePosition);
+        //    Debug.Log(particleDataArr[i * 2].Position);
+        //    Debug.Log(particleDataArr[i * 2 + 1].Position);
         //}
 
         // GPU Instaicing
